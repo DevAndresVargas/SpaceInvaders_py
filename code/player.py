@@ -3,6 +3,9 @@ from laser import Laser
 
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos,max_width,speed,laser_speed):
+        """
+        esto es una prueba
+        """
         super().__init__()
         self.image = pygame.image.load('../graphics/player.png').convert_alpha()
         self.rect = self.image.get_rect(midbottom = pos)
