@@ -7,8 +7,18 @@ from laser import Laser
 
 class Game:
     def __init__(self):
+        # Audio setup
+        self.explosion = pygame.mixer.Sound('../audio/explosion.wav')
+        self.explosion.set_volume(0.2)
+        self.laser_sound = pygame.mixer.Sound('../audio/laser.wav')
+        self.laser_sound.set_volume(0.2)
+
+        music = pygame.mixer.Sound('../audio/music.wav')
+        music.set_volume(0.2)
+        music.play(loops= -1)
+
         # Player Setup
-        player_sprite = Player((screen_width / 2, screen_height),screen_width,5,8)
+        player_sprite = Player((screen_width / 2, screen_height),screen_width,5,8,self.laser_sound)
         self.player = pygame.sprite.GroupSingle(player_sprite)
 
         # health and score setup
@@ -38,6 +48,11 @@ class Game:
 
         self.create_multiple_obstacles(self.obstacle_x_positions,x_init =\
                                        screen_width / 15,y_init = 480)
+
+
+
+
+
 
     def create_obstacle(self,x_init,y_init, offset_x):
         for row_index,row in enumerate(self.shape):
@@ -89,7 +104,7 @@ class Game:
     def alien_shoot(self):
         if self.aliens.sprites():
             random_alien = choice(self.aliens.sprites())
-            laser_sprite = Laser(random_alien.rect.center,-6,screen_height)
+            laser_sprite = Laser(random_alien.rect.center,-6,screen_height,self.laser_sound)
             self.alien_lasers.add(laser_sprite)
 
     def extra_alien_timer(self):
@@ -112,11 +127,13 @@ class Game:
                if aliens_hit:
                    for alien in aliens_hit:
                        self.score += alien.value
+                       self.explosion.play()
                    laser.kill()
 
                # extra collissions
                if pygame.sprite.spritecollide(laser,self.extra,True):
                    self.score += 500
+                   self.explosion.play()
                    laser.kill()
 
         # alien lasers
@@ -131,6 +148,7 @@ class Game:
                if pygame.sprite.spritecollide(laser,self.player,False):
                    laser.kill()
                    self.lives -=1
+                   self.explosion.play()
                    if self.lives <= 0:
                        pygame.quit()
                        sys.exit()

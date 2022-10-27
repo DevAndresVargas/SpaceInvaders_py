@@ -2,7 +2,7 @@ import pygame
 from laser import Laser
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self,pos,max_width,speed,laser_speed):
+    def __init__(self,pos,max_width,speed,laser_speed,laser_sound):
         """
         esto es una prueba
         """
@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.laser_time = 0
         self.laser_cooldown = 600
         self.laser_speed = laser_speed
+        self.laser_sound = laser_sound
 
         self.lasers = pygame.sprite.Group()
 
@@ -44,7 +45,7 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = self.max_width
 
     def shoot_laser(self):
-        self.lasers.add(Laser(self.rect.center,self.laser_speed,self.rect.bottom))
+        self.lasers.add(Laser(self.rect.center,self.laser_speed,self.rect.bottom,self.laser_sound))
 
     def update(self):
         self.get_input()
