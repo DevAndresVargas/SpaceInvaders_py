@@ -6,6 +6,9 @@ class Alien(pygame.sprite.Sprite):
         file_path = '../graphics/' + color + '.png'
         self.image = pygame.image.load(file_path).convert_alpha()
         self.rect = self.image.get_rect(topleft = (x,y))
+        hash_value = {'red':100,'green':200,'yellow':300}
+        self.value = hash_value[color]
+
 
     def update(self,direction):
         self.rect.x += direction
